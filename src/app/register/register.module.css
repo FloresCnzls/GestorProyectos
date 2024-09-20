@@ -1,0 +1,86 @@
+/* Fondo amigable con un gradiente suave */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
+  }
+  
+  /* Caja de registro con fondo claro */
+  .loginBox {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Título con color más oscuro */
+  .title {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333333;
+  }
+  
+  /* Formularios organizados y entrada estilizada */
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputGroup {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .inputGroup label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #333333;
+  }
+  
+  .inputGroup input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  /* Botón con colores suaves */
+  .submitBtn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitBtn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Link de registro con color amigable */
+  .registerLink {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #555555;
+  }
+  
+  .registerLink a {
+    color: #0070f3;
+    text-decoration: none;
+  }
+  
+  .registerLink a:hover {
+    text-decoration: underline;
+  }
+  
