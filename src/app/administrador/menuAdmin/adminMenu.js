@@ -8,7 +8,7 @@ const AdminMenu = ({handleMenuClick}) => {
     return (
       <header className={styles.header}>
        <Image
-        src="/logo.png"  // El archivo "logo.png" debe estar en la carpeta "public"
+        src="/logo.png"  
         alt="Logo de la aplicación"
         width={150}
         height={50}
