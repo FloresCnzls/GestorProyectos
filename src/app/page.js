@@ -19,8 +19,6 @@ export default function Login() {
     // Verifica si esta línea aparece en la consola
     console.log('Formulario enviado');
     
-    /*console.log('usuario:', nombre_usuario);
-    console.log('contraseña:', contrasena);*/
 
     try {
       const response = await fetch('/api/login', {
