@@ -35,6 +35,12 @@
   margin-bottom: 20px;
   text-align: left;
 }
+/* Añadir a page.module.css */
+.errorMessage {
+  color: red; /* Color del texto del error */
+  margin: 10px 0; /* Espaciado alrededor del mensaje */
+  font-weight: bold; /* Texto en negrita */
+}
 
 .inputGroup label {
   display: block;
@@ -49,7 +55,7 @@
   border-radius: 5px;
   border: 1px solid #cccccc;
   font-size: 1rem;
-  background-color: #f9f9f9;
+  background-color: #313030;
 }
 
 /* Botón de envío con colores que resaltan pero son suaves */

@@ -1,8 +1,18 @@
+"use client";
 import Image from "next/image"; 
 import styles from "./home.module.css";
+import { useRouter } from 'next/navigation';
 
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Lógica para cerrar sesión
+    localStorage.removeItem('token'); // Eliminar el token
+    router.push('./'); // Redirigir a la página de inicio de sesión
+  };
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -18,6 +28,7 @@ export default function Home() {
           <a href="#team">Equipo</a>
           <a href="#about">Acerca de</a>
           <a href="#contact">Contacto</a>
+          <button onClick={handleLogout}>Cerrar Sesión</button>
         </nav>
       </header>
 
@@ -48,3 +59,4 @@ export default function Home() {
     </div>
   );
 }
+
