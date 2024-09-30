@@ -8,9 +8,9 @@ export default function Home() {
   const router = useRouter();
 
   const handleLogout = () => {
-    // Lógica para cerrar sesión
-    localStorage.removeItem('token'); // Eliminar el token
-    router.push('./'); // Redirigir a la página de inicio de sesión
+    
+    localStorage.removeItem('token'); 
+    router.push('./'); 
   };
 
   return (
