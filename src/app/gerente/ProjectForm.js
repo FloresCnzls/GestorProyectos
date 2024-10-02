@@ -1,142 +1,211 @@
-'use client';
 import React, { useState } from "react";
-import styles from "./projectmanager-role.module.css";
 
 const ProjectForm =  () => {
 
-    const [projects, setProjects] = useState([]);
-    const [newProject, setNewProject] = useState({name: '', description: '', status: 'New', progress: 0});
-    const [editingProject, setEditingProject] = useState(null);
-    const [editMode, setEditMode] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [newProject, setNewProject] = useState({ name: '', description: '', status: 'New', progress: 0, startDate: '', finishDate: '', tasks: [] });
+  const [newTask, setNewTask] = useState({ name: '', description: '', status: 'New', assignedTo: '', updates: [] });
+  const [users, setUsers] = useState([{ id: 1, name: 'John Doe' }, { id: 2, name: 'Jane Doe' }]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
-    const handleSubmit = (event) => {
+  const handleSubmit = (event) => {
       event.preventDefault();
-      if (newProject.name === '' || newProject.description === '') {
+      if (newProject.name === '' || newProject.description === '' || newProject.startDate === '' || newProject.finishDate === '') {
           alert('Please fill in all fields to create a project');
           return;
       }
-      if (editMode) {
-          const updatedProjects = projects.map((project, index) => {
-              if (index === editingProject) {
-                  return newProject;
-              }
-              return project;
-          });
-          setProjects(updatedProjects);
-          setEditMode(false);
-      } else {
-          setProjects([...projects, { ...newProject, status: 'New' }]);
-      }
-      setNewProject({name: '', description: '', status: 'New', progress: 0});
-  };
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        if (name === 'progress') {
-            const progressValue = Math.max(0, Math.min(100, parseInt(value)));
-            setNewProject({ ...newProject, [name]: progressValue });
-        } else {
-            setNewProject({ ...newProject, [name]: value });
-        }
-    };
-
-    const handleDeleteProject = (index) => {
-        setProjects(projects.filter((projects, i) => i !== index));
-    };
-
-    const handleEditProject = (index) => {
-        setEditingProject(index);
-        setEditMode(true);
-        const projectToEdit = projects[index];
-        setNewProject(projectToEdit);
-    };
-
-    const handleUpdateStatus = (index, status) => {
-      if (status === 'New') {
-          alert('You cannot set the status to "New" manually. It is automatically set when a project is created.');
+      const startDate = new Date(newProject.startDate);
+      const currentDate = new Date();
+      if (startDate < currentDate) {
+          alert('The project start date cannot be less than the current date');
           return;
       }
-      const updatedProjects = projects.map((project, i) => {
-          if (i === index) {
-              return { ...project, status };
+      if (startDate > new Date(newProject.finishDate)) {
+          alert('The project finish date cannot be less than the start date');
+          return;
+      }
+      setProjects([...projects, { ...newProject, status: 'New' }]);
+      setNewProject({ name: '', description: '', status: 'New', progress: 0, startDate: '', finishDate: '', tasks: [] });
+  };
+
+  const handleCreateTask = (projectIndex) => {
+      if (newTask.name === '' || newTask.description === '') {
+          alert('Please fill in all fields to create a task');
+          return;
+      }
+      const updatedProjects = projects.map((project, index) => {
+          if (index === projectIndex) {
+              return { ...project, tasks: [...project.tasks, { ...newTask, status: 'New', updates: [] }] };
+          }
+          return project;
+      });
+      setProjects(updatedProjects);
+      setNewTask({ name: '', description: '', status: 'New', assignedTo: '', updates: [] });
+      setShowModal(false);
+  };
+
+  const handleUpdateTaskStatus = (projectIndex, taskIndex, status) => {
+    const updatedProjects = projects.map((project, index) => {
+      if (index === projectIndex) {
+        return {
+          ...project,
+          tasks: project.tasks.map((task, taskIndexInner) => {
+            if (taskIndexInner === taskIndex) {
+              return { ...task, status };
+            }
+            return task;
+          }),
+        };
+      }
+      return project;
+    });
+    setProjects(updatedProjects);
+  };
+
+  const handleAddUpdate = (projectIndex, taskIndex, update) => {
+      const updatedProjects = projects.map((project, index) => {
+          if (index === projectIndex) {
+              return {
+                  ...project,
+                  tasks: project.tasks.map((task, taskIndexInner) => {
+                      if (taskIndexInner === taskIndex) {
+                          return { ...task, updates: [...task.updates, update] };
+                      }
+                      return task;
+                  }),
+              };
           }
           return project;
       });
       setProjects(updatedProjects);
   };
 
-    const handleUpdateProgress = (index, progress) => {
-        const updatedProgress = Math.max(0, Math.min(100, parseInt(progress)));
-        const updatedProjects = projects.map((project, i) => {
-            if (i === index) {
-                if (updatedProgress === 100) {
-                    return { ...project, progress: updatedProgress, status: 'Completed' };
-                } else {
-                    return { ...project, progress: updatedProgress };
-                }
-            }
-            return project;
-        });
-        setProjects(updatedProjects);
-    };
+const handleDeleteTask = (projectIndex, taskIndex) => {
+  const updatedProjects = projects.map((project, index) => {
+    if (index === projectIndex) {
+      return {
+        ...project,
+        tasks: project.tasks.filter((task, taskIndexInner) => taskIndexInner !== taskIndex),
+      };
+    }
+    return project;
+  });
+  setProjects(updatedProjects);
+};
 
-    return (
-        <div className={styles.container}>
-        <h1 className={styles.title}>Project Manager</h1>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <label className={styles.label}>
-            Project Name:
-            <input type="text" name="name" value={newProject.name} onChange={handleInputChange} className={styles.input} />
-          </label>
-          <br />
-          <label className={styles.label}>
-            Project Description:
-            <textarea name="description" value={newProject.description} onChange={handleInputChange} className={styles.textarea} />
-          </label>
-          <br />
-          <label className={styles.label}>
-            Project Status:
-            <select name="status" value={newProject.status} onChange={handleInputChange} className={styles.select}>
-              <option value="New">New</option>
-              <option value="In Progress">In Progress</option>
-              <option value="On Hold">On Hold</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </label>
-          <br />
-          {editMode ? (
-            <button type="submit" className={styles.submitbutton}>Update Project</button>
-          ) : (
-            <button type="submit" className={styles.submitbutton}>Create Project</button>
+  const handleShowModal = (projectIndex) => {
+      setShowModal(true);
+      setSelectedProject(projects[projectIndex]);
+  };
+
+  const handleHideModal = () => {
+      setShowModal(false);
+      setSelectedProject(null);
+  };
+
+  const handleShowTaskModal = (projectIndex, taskIndex) => {
+    setShowTaskModal(true);
+    setSelectedProject(projects[projectIndex]);
+    setSelectedTask(projects[projectIndex].tasks[taskIndex]);
+  };
+
+  const handleHideTaskModal = () => {
+      setShowTaskModal(false);
+      setSelectedTask(null);
+  };
+
+  return (
+      <div>
+          <h1>Project Manager</h1>
+          <form onSubmit={handleSubmit}>
+              <label>
+                  Project Name:
+                  <input type="text" value ={newProject.name} onChange={(event) => setNewProject({ ...newProject, name: event.target.value })} />
+              </ label>
+              <br />
+              <label>
+                  Project Description:
+                  <textarea value={newProject.description} onChange={(event) => setNewProject({ ...newProject, description: event.target.value })} />
+              </label>
+              <br />
+              <label>
+ Start Date:
+                  <input type="date" value={newProject.startDate} onChange={(event) => setNewProject({ ...newProject, startDate: event.target.value })} />
+              </label>
+              <br />
+              <label>
+                  Finish Date:
+                  <input type="date" value={newProject.finishDate} onChange={(event) => setNewProject({ ...newProject, finishDate: event.target.value })} />
+              </label>
+              <br />
+              <button type="submit">Create Project</button>
+          </form>
+          <ul>
+  {projects.map((project, index) => (
+    <li key={index}>
+      <h2>{project.name}</h2>
+      <p>{project.description}</p>
+      <p>Status: {project.status}</p>
+      <p>Start Date: {project.startDate}</p>
+      <p>Finish Date: {project.finishDate}</p>
+      <button onClick={() => handleShowModal(index)}>Create Task</button>
+      <button onClick={() => handleShowTaskModal(index, 0)}>View Tasks</button>
+    </li>
+  ))}
+</ul>
+          {showModal && (
+              <div>
+                  <div>
+                      <h2>Create Task</h2>
+                      <form>
+                          <label>
+                              Task Name:
+                              <input type="text" value={newTask.name} onChange={(event) => setNewTask({ ...newTask, name: event.target.value })} />
+                          </label>
+                          <br />
+                          <label>
+                              Task Description:
+                              <textarea value={newTask.description} onChange={(event) => setNewTask({ ...newTask, description: event.target.value })} />
+                          </label>
+                          <br />
+                          <label>
+                              Assign To:
+                              <select value={newTask.assignedTo} onChange={(event) => setNewTask({ ...newTask, assignedTo: event.target.value })}>
+                                  <option value="">Select User</option>
+                                  {users.map((user) => (
+                                      <option key={user.id} value={user.name}>
+                                          {user.name}
+                                      </option>
+                                  ))}
+                              </select>
+                          </label>
+                          <br />
+                          <button type="button" onClick={() => handleCreateTask(projects.indexOf(selectedProject))}>Create Task</button>
+                          <button onClick={handleHideModal}>Close</button>
+                      </form>
+                  </div>
+              </div>
           )}
-        </form>
-        <ul className={styles.projectlist}>
-          {projects.map((project, index) => (
-            <li key={index} className={styles.projectsitem}>
-              <h2 className={styles.projecttitle}>{project.name}</h2>
-              <p className={styles.projectdescription}>{project.description}</p>
-              <p className={styles.projectstatus}>Status: {project.status}</p>
-              {project.status === 'In Progress' && (
-                <div className={styles.progressbar}>
-                  <div style={{ width: `${project.progress}%` }} className={styles.progressbarinner} />
-                  <p>{project.progress}%</p>
-                </div>
-              )}
-              <button onClick={() => handleDeleteProject(index)} className={styles.deletebutton}>Delete</button>
-              <button onClick={() => handleEditProject(index)} className={styles.editbutton}>Edit</button>
-              <button onClick={() => handleUpdateStatus(index, 'In Progress')} className={styles.updatestatusbutton}>Start Progress</button>
-              <button onClick={() => handleUpdateStatus(index, 'On Hold')} className={styles.updatestatusbutton}>Put On Hold</button>
-              {project.status !== 'Completed' && (
-                <button onClick={() => handleUpdateStatus(index, 'Completed')} className={styles.updatestatusbutton}>Complete</button>
-              )}
-              {project.status === 'In Progress' && (
-                <input type="number" value={project.progress} onChange={(e) => handleUpdateProgress(index, e.target.value)} className={styles.progressinput} />
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>  
-    );
+{showTaskModal && selectedTask && (
+  <div>
+    <div>
+      <h2>Task Details</h2>
+      <p>Task Name: {selectedTask.name}</p>
+      <p>Task Description: {selectedTask.description}</p>
+      <p>Status: {selectedTask.status}</p>
+      <p>Assigned To: {selectedTask.assignedTo}</p>
+      <button onClick={() => handleUpdateTaskStatus(projects.indexOf(selectedProject), selectedProject.tasks.indexOf(selectedTask), 'In Progress')}>Mark as In Progress</button>
+      <button onClick={() => handleUpdateTaskStatus(projects.indexOf(selectedProject), selectedProject.tasks.indexOf(selectedTask), 'Completed')}>Mark as Completed</button>
+      <button onClick={() => handleDeleteTask(projects.indexOf(selectedProject), selectedProject.tasks.indexOf(selectedTask))}>Delete Task</button>
+      <button onClick={handleHideTaskModal}>Close</button>
+    </div>
+  </div>
+)}
+      </div>
+  );
 }
 
 export default ProjectForm;
