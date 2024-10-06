@@ -54,7 +54,7 @@ export default function Login() {
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" placeholder="Ingrese su contraseña" value={contrasena}  onChange={(e) => setcontrasena(e.target.value)} required />
+            <input type="password" id="contrasena" placeholder="Ingrese su contraseña" value={contrasena} onChange={(e) => setcontrasena(e.target.value)} required />
           </div>
           <button type="submit" className={styles.submitBtn}>Entrar</button>
         </form>
