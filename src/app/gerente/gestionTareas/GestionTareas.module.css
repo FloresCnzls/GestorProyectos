@@ -31,7 +31,8 @@
   .styledTable th,
   .styledTable td {
     padding: 12px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #000000;
+    color:#000000;
   }
   
   .styledTable th {
