@@ -1,10 +1,10 @@
 "use client";
 
 import React, {useState} from "react";
-import Colaborar from "./colaborar/colaborar";
-import Tareas from "./tareas/tareas";
-import Proyectos from "./proyectos/proyectos";
-import MiembroMenu from "./menuMiembro/menuMiembro";
+import Colaborar from "./colaborar/page";
+import Tareas from "./tareas/page";
+import Proyectos from "./proyectos/page";
+import MiembroMenu from "./menuMiembro/page";
  
 
 export default function Miembros (){
