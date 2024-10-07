@@ -9,7 +9,7 @@
 
 /* Caja de login más clara y con colores suaves */
 .loginBox {
-  background-color: #ffffff;
+  background: linear-gradient(to right, #71d1bf, #a5b0df);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -100,7 +100,7 @@
 }
 
 .registerLink a {
-  color: #0070f3;
+  color: #0077ff;
   text-decoration: none;
 }
 
