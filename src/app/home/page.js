@@ -3,9 +3,9 @@ import Image from "next/image";
 import styles from "./home.module.css";
 import { useRouter } from 'next/navigation';
 import React, { useState } from "react";
-import GerenteMenu from "../gerente/menuGerente/gerenteMenu";
-import GestionProyectos from "../gerente/gestionProyectos/gestionProyectos";
-import GestionTareas from "../gerente/gestionTareas/gestionTareas";
+import GerenteMenu from "../gerente/menuGerente/page";
+import GestionProyectos from "../gerente/gestionProyectos/page";
+import GestionTareas from "../gerente/gestionTareas/page";
 
 export default function Home() {
   const router = useRouter();

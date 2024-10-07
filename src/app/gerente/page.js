@@ -1,9 +1,9 @@
 "use client"
 
 import React, {useState} from "react";
-import GerenteMenu from "./menuGerente/gerenteMenu";
-import GestionProyectos from "./gestionProyectos/gestionProyectos";
-import GestionTareas from "./gestionTareas/gestionTareas";
+import GerenteMenu from "./menuGerente/page";
+import GestionProyectos from "./gestionProyectos/page";
+import GestionTareas from "./gestionTareas/page";
 
 export default function Home(){
     const [activeModule, setActiveModule] = useState("proyectos");
