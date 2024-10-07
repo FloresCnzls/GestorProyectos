@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from 'react';
 import Image from "next/image"; 
 import styles from "./home.module.css";
 import { useRouter } from 'next/navigation';
@@ -10,6 +11,14 @@ import GestionTareas from "../gerente/gestionTareas/page";
 export default function Home() {
   const router = useRouter();
   const [activeModule, setActiveModule] = useState("proyectos");
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      router.push('/');
+    }
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('token'); 
