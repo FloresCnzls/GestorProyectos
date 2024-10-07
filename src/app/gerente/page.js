@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import GerenteMenu from "./menuGerente/page";
 import GestionProyectos from "./gestionProyectos/page";
 import GestionTareas from "./gestionTareas/page";
+import home from "../home/page";
 
 export default function Home(){
     const [activeModule, setActiveModule] = useState("proyectos");
