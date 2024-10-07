@@ -1,10 +1,10 @@
+// src/app/gerente/page.js
 "use client";
 
 import React, { useState } from "react";
-import GerenteMenu from "./menuGerente/page";
+import GerenteMenu from "./menuGerente/Menu";
 import GestionProyectos from "./gestionProyectos/page";
-import GestionTareas from "./gestionTareas/page";
-import home from "../home/page";
+import GestionTareas from "./gestionTareas/page"; 
 
 export default function Home() {
     const [activeModule, setActiveModule] = useState("proyectos");

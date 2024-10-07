@@ -1,3 +1,4 @@
+// src/app/gerente/menuGerente/Menu.js
 "use client";
 
 import React from 'react';
